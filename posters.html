@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conference Poster Groups</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Session styles */
+        .session {
+            margin-bottom: 50px;
+        }
+
+        .session-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 12px 12px 0 0;
+            margin-bottom: 0;
+        }
+
+        .session-title {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .session-info {
+            font-size: 1.1em;
+            opacity: 0.9;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-top: 5px;
+        }
+
+        .session-info .separator {
+            margin: 0 12px;
+            opacity: 0.7;
+            font-weight: 300;
+        }
+
+        .groups-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            background: white;
+            padding: 15px;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .group-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .group-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        
+        .group-header {
+            padding: 25px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .group-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--group-color) 0%, var(--group-color-dark) 100%);
+            opacity: 0.9;
+        }
+        
+        .group-header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .group-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .group-description {
+            font-size: 0.95em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .poster-count {
+            font-size: 0.9em;
+            font-weight: 600;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .posters-list {
+            padding: 0;
+        }
+        
+        .poster-item {
+            padding: 20px 25px;
+            border-bottom: 1px solid #e9ecef;
+            transition: background-color 0.2s ease;
+        }
+        
+        .poster-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .poster-item:last-child {
+            border-bottom: none;
+        }
+        
+        .poster-id {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+        
+        .poster-title {
+            font-size: 1.05em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .poster-authors {
+            font-size: 0.9em;
+            color: #495057;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+        
+        .poster-affiliation {
+            font-size: 0.85em;
+            color: #6c757d;
+        }
+        
+        .abstract-btn {
+            display: inline-block;
+            background: var(--group-color);
+            color: white;
+            padding: 4px 10px;
+            font-size: 0.8em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background-color 0.2s;
+            text-decoration: none;
+        }
+        
+        .abstract-btn:hover {
+            opacity: 0.8;
+        }
+        
+        .abstract-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* Modal Styles - matching the oral schedule design */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+        }
+        
+        .modal-content {
+            position: relative;
+            background: white;
+            margin: 5% auto;
+            padding: 0;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .modal-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .modal-author {
+            font-size: 1em;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        
+        .modal-body {
+            padding: 25px;
+            max-height: 50vh;
+            overflow-y: auto;
+            line-height: 1.6;
+            font-size: 1em;
+        }
+        
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            transition: opacity 0.2s;
+        }
+        
+        .close:hover {
+            opacity: 0.7;
+        }
+
+        /* Statistics section */
+        .stats-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1400px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .groups-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .header p {
+                font-size: 1.1em;
+            }
+            
+            .group-header {
+                padding: 20px;
+            }
+            
+            .group-title {
+                font-size: 1.2em;
+            }
+            
+            .poster-item {
+                padding: 15px 20px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                max-height: 75vh;
+            }
+            
+            .modal-body {
+                padding: 20px;
+                max-height: 45vh;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 900px) {
+
+	    .groups-grid {
+	        grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .poster-item {
+                padding: 12px 15px;
+            }
+            
+            .group-header {
+                padding: 15px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>CLIN35 Poster Sessions</h1>
+        </div>
+
+        <div id="sessionsContainer">
+            <!-- Sessions will be populated by JavaScript -->
+        
+    </div>
+
+    <!-- Abstract Modal -->
+    <div id="abstractModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle"></div>
+                <div class="modal-author" id="modalAuthor"></div>
+            </div>
+            <div class="modal-body" id="modalAbstract"></div>
+        </div>
+    </div>
+
+    <script>
+        // You can change this to point to your JSON file
+        const JSON_URL = 'https://www.ccl.kuleuven.be/CLIN35/posters.json';
+        
+        function openAbstractModal(title, authors, abstract) {
+            const modal = document.getElementById('abstractModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalAuthor = document.getElementById('modalAuthor');
+            const modalAbstract = document.getElementById('modalAbstract');
+            
+            modalTitle.textContent = title;
+            modalAuthor.textContent = authors;
+            modalAbstract.innerHTML = (abstract || "Abstract not available for this presentation.")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/\n/g, "<br>");
+            
+            // Reset scroll position of modal body
+            setTimeout(() => {
+                modalAbstract.scrollTop = 0;
+            }, 0);
+
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeAbstractModal() {
+            const modal = document.getElementById('abstractModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        async function loadPosterData() {
+            try {
+                showLoadingMessage();
+                const response = await fetch(JSON_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                hideLoadingMessage();
+                renderPosterSessions(data);
+            } catch (error) {
+                console.error('Error loading poster data:', error);
+                showErrorMessage(error.message);
+            }
+        }
+        
+        
+        function showLoadingMessage() {
+            const container = document.getElementById('sessionsContainer');
+            container.innerHTML = `
+                <div style="text-align: center; padding: 50px; color: #6c757d;">
+                    <div style="font-size: 1.5em; margin-bottom: 10px;">Loading poster sessions...</div>
+                    <div style="font-size: 1em;">Please wait while we fetch the latest data.</div>
+                </div>
+            `;
+        }
+        
+        function showErrorMessage(errorMessage) {
+            const container = document.getElementById('sessionsContainer');
+            container.innerHTML = `
+                <div style="text-align: center; padding: 50px; color: #dc3545; background: #f8d7da; border-radius: 8px; border: 1px solid #f5c6cb;">
+                    <div style="font-size: 1.5em; margin-bottom: 10px;">❌ Error Loading Poster Sessions</div>
+                    <div style="font-size: 1em; margin-bottom: 15px;">Unable to load the poster session data.</div>
+                    <div style="font-size: 0.9em; color: #721c24; font-family: monospace;">${errorMessage}</div>
+                    <button onclick="loadPosterData()" style="margin-top: 20px; padding: 10px 20px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Try Again
+                    </button>
+                </div>
+            `;
+        }
+        
+        function hideLoadingMessage() {
+            const container = document.getElementById('sessionsContainer');
+            container.innerHTML = '';
+        }
+
+        function renderPosterSessions(data) {
+            const container = document.getElementById('sessionsContainer');
+            
+            data.sessions.forEach(session => {
+                const sessionDiv = document.createElement('div');
+                sessionDiv.className = 'session';
+
+		// Add anchor ID based on session type
+                const anchorId = session.id === 'morning' ? 'morning-session' : 'afternoon-session';
+                sessionDiv.id = anchorId;
+                
+                let groupsHtml = '';
+                session.groups.forEach(group => {
+                    const colorDark = adjustBrightness(group.color, -20);
+                    
+                    let postersHtml = '';
+                    group.posters.forEach(poster => {
+                        const hasAbstract = poster.abstract && poster.abstract.trim().length > 0;
+                        const buttonId = `abstract-btn-${poster.id}`;
+                        
+                        postersHtml += `
+                            <div class="poster-item">
+                                <!--<div class="poster-id">#${poster.id}</div>-->
+                                <div class="poster-title">${poster.title}</div>
+                                <div class="poster-authors">${poster.authors}</div>
+                                ${poster.affiliation ? `<div class="poster-affiliation">${poster.affiliation}</div>` : ''}
+                                <button class="abstract-btn" id="${buttonId}" ${!hasAbstract ? 'disabled' : ''} style="background: ${group.color};">
+                                    ${hasAbstract ? 'Show Abstract' : 'Abstract TBD'}
+                                </button>
+                            </div>
+                        `;
+                        
+                        // Add event listener for abstract button
+                        setTimeout(() => {
+                            const button = document.getElementById(buttonId);
+                            if (button && hasAbstract) {
+                                button.addEventListener('click', () => {
+                                    openAbstractModal(poster.title, poster.authors, poster.abstract);
+                                });
+                            }
+                        }, 0);
+                    });
+                    
+                    groupsHtml += `
+                        <div class="group-card" style="--group-color: ${group.color}; --group-color-dark: ${colorDark};">
+                            <div class="group-header">
+                                <div class="group-header-content">
+                                    <div class="group-title">${group.name}</div>
+                                    <!--<div class="group-description">${group.description}</div>-->
+                                    <div class="poster-count">${group.posters.length} posters</div>
+                                </div>
+                            </div>
+                            <div class="posters-list">
+                                ${postersHtml}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                sessionDiv.innerHTML = `
+                    <div class="session-header">
+                        <div class="session-title">${session.name}</div>
+                        <div class="session-info">${session.time}<span class="separator">•</span>${session.rooms} rooms<span class="separator">•</span>${session.groups.reduce((total, group) => total + group.posters.length, 0)} posters</div>
+                    </div>
+                    <div class="groups-grid">
+                        ${groupsHtml}
+                    </div>
+                `;
+                
+                container.appendChild(sessionDiv);
+            });
+        }
+        
+        // Helper function to adjust color brightness
+        function adjustBrightness(hex, percent) {
+            const num = parseInt(hex.replace("#", ""), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) + amt;
+            const G = (num >> 8 & 0x00FF) + amt;
+            const B = (num & 0x0000FF) + amt;
+            return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+                (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+                (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+        }
+        
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set up modal event listeners
+            const modal = document.getElementById('abstractModal');
+            const closeBtn = document.querySelector('.close');
+            
+            // Close modal when clicking the X
+            closeBtn.addEventListener('click', closeAbstractModal);
+            
+            // Close modal when clicking outside of it
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeAbstractModal();
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && modal.style.display === 'block') {
+                    closeAbstractModal();
+                }
+            });
+            
+            // Load the poster data
+            loadPosterData();
+        });
+    </script>
+</body>
+</html>

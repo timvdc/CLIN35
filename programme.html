@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conference Schedule</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        .schedule-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .schedule-item {
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        /* Plenary and Break Sessions */
+        .plenary, .break {
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .plenary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .break {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #8b4513;
+        }
+        
+        .session-time {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .session-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .session-abstract {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        /* Parallel Sessions */
+        .parallel-session {
+            padding: 0;
+        }
+        
+        .session-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+        }
+        
+        .tracks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 0;
+        }
+        
+        .track {
+            border-right: 1px solid #e9ecef;
+            padding: 0;
+        }
+        
+        .track:last-child {
+            border-right: none;
+        }
+        
+        .track-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 2px solid #dee2e6;
+            text-align: center;
+        }
+        
+        .track-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .talks {
+            padding: 0;
+        }
+        
+        .talk {
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            transition: background-color 0.2s ease;
+        }
+        
+        .talk:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .talk:last-child {
+            border-bottom: none;
+        }
+        
+        .talk-time {
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 8px;
+        }
+        
+        .talk-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .talk-author {
+            font-size: 0.95em;
+            color: #495057;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+        
+        .abstract-btn {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 4px 8px;
+            font-size: 0.8em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: background-color 0.2s;
+        }
+        
+        .abstract-btn:hover {
+            background: #2980b9;
+        }
+        
+        /* Abstract Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+        }
+        
+        .modal-content {
+            position: relative;
+            background: white;
+            margin: 5% auto;
+            padding: 0;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .modal-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .modal-author {
+            font-size: 1em;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        
+        .modal-body {
+            padding: 25px;
+            max-height: 50vh;
+            overflow-y: auto;
+            line-height: 1.6;
+            font-size: 1em;
+        }
+        
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            transition: opacity 0.2s;
+        }
+        
+        .close:hover {
+            opacity: 0.7;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                max-height: 75vh;
+            }
+            
+            .modal-body {
+                padding: 20px;
+                max-height: 45vh;
+            }
+            
+            .schedule-container {
+                padding: 15px;
+            }
+            
+            .tracks-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .track {
+                border-right: none;
+                border-bottom: 1px solid #e9ecef;
+            }
+            
+            .track:last-child {
+                border-bottom: none;
+            }
+            
+            .session-title {
+                font-size: 1.5em;
+            }
+            
+            .plenary, .break {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .talk {
+                padding: 15px;
+            }
+            
+            .track-header {
+                padding: 15px;
+            }
+            
+            .session-title {
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="schedule-container">
+        <!-- This will be populated by JavaScript -->
+    </div>
+
+    <!-- Abstract Modal -->
+    <div id="abstractModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle"></div>
+                <div class="modal-author" id="modalAuthor"></div>
+            </div>
+            <div class="modal-body" id="modalAbstract"></div>
+        </div>
+    </div>
+
+    <script>
+        const JSON_URL = 'https://www.ccl.kuleuven.be/CLIN35/programme.json';
+        
+        function openAbstractModal(title, author, abstract) {
+            const modal = document.getElementById('abstractModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalAuthor = document.getElementById('modalAuthor');
+            const modalAbstract = document.getElementById('modalAbstract');
+            
+            modalTitle.textContent = title;
+            modalAuthor.textContent = author;
+            modalAbstract.innerHTML = (abstract || "Abstract not available for this presentation.")
+	    .replace(/&/g, "&amp;")      // escape &
+            .replace(/</g, "&lt;")       // escape <
+            .replace(/>/g, "&gt;")       // escape >
+            .replace(/\n/g, "<br>");     // turn newlines into <br>
+            
+            // Reset scroll position of modal body
+            setTimeout(() => {
+                modalAbstract.scrollTop = 0;
+            }, 0);
+
+
+
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeAbstractModal() {
+            const modal = document.getElementById('abstractModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        async function loadScheduleData() {
+            try {
+                showLoadingMessage();
+                const response = await fetch(JSON_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                hideLoadingMessage();
+                renderSchedule(data);
+            } catch (error) {
+                console.error('Error loading schedule data:', error);
+                showErrorMessage(error.message);
+            }
+        }
+        
+        function showLoadingMessage() {
+            const container = document.querySelector('.schedule-container');
+            container.innerHTML = `
+                <div style="text-align: center; padding: 50px; color: #6c757d;">
+                    <div style="font-size: 1.5em; margin-bottom: 10px;">Loading schedule...</div>
+                    <div style="font-size: 1em;">Please wait while we fetch the latest conference data.</div>
+                </div>
+            `;
+        }
+        
+        function showErrorMessage(errorMessage) {
+            const container = document.querySelector('.schedule-container');
+            container.innerHTML = `
+                <div style="text-align: center; padding: 50px; color: #dc3545; background: #f8d7da; border-radius: 8px; border: 1px solid #f5c6cb;">
+                    <div style="font-size: 1.5em; margin-bottom: 10px;">❌ Error Loading Schedule</div>
+                    <div style="font-size: 1em; margin-bottom: 15px;">Unable to load the conference schedule data.</div>
+                    <div style="font-size: 0.9em; color: #721c24; font-family: monospace;">${errorMessage}</div>
+                    <button onclick="loadScheduleData()" style="margin-top: 20px; padding: 10px 20px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Try Again
+                    </button>
+                </div>
+            `;
+        }
+        
+        function hideLoadingMessage() {
+            const container = document.querySelector('.schedule-container');
+            container.innerHTML = '';
+        }
+
+        function renderSchedule(data) {
+            const container = document.querySelector('.schedule-container');
+            
+            data.forEach(item => {
+                const scheduleItem = document.createElement('div');
+                scheduleItem.className = 'schedule-item';
+                
+                if (item.type === 'plenary') {
+                    scheduleItem.innerHTML = `
+                        <div class="plenary">
+                            <div class="session-time">${item.start} - ${item.end}</div>
+                            <div class="session-title">${item.title}</div>
+                            <div class="session-abstract">${item.abstract}</div>
+                        </div>
+                    `;
+                } else if (item.type === 'break') {
+                    scheduleItem.innerHTML = `
+                        <div class="break">
+                            <div class="session-time">${item.start} - ${item.end}</div>
+                            <div class="session-title">${item.title}</div>
+                        </div>
+                    `;
+                } else if (item.type === 'session') {
+let tracksHtml = '';
+
+item.events.forEach(track => {
+    let talksHtml = '';
+
+    track.talks.forEach((talk, index) => {
+        const hasAbstract = talk.abstract;
+        const buttonId = `abstract-btn-${Math.random().toString(36).substr(2, 9)}`;
+
+        talksHtml += `
+            <div class="talk">
+                <div class="talk-time">${talk.time}</div>
+                <div class="talk-title">${talk.title}</div>
+                <div class="talk-author">${talk.author}</div>
+                ${hasAbstract ? `<button class="abstract-btn" id="${buttonId}">Show Abstract</button>` : ''}
+            </div>
+        `;
+
+        // Use a deferred event listener so the button exists when DOM is updated
+        setTimeout(() => {
+            const button = document.getElementById(buttonId);
+            if (button) {
+                button.addEventListener('click', () => {
+                    openAbstractModal(talk.title, talk.author, talk.abstract);
+                });
+            }
+        }, 0);
+    });
+                        
+                        tracksHtml += `
+                            <div class="track">
+                                <div class="track-header">
+                                    <div class="track-title">${track.title}</div>
+                                </div>
+                                <div class="talks">
+                                    ${talksHtml}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    scheduleItem.innerHTML = `
+                        <div class="parallel-session">
+                            <div class="session-header">
+                                <div class="session-time">${item.start} - ${item.end}</div>
+                                <div class="session-title">Parallel Sessions</div>
+                            </div>
+                            <div class="tracks-grid">
+                                ${tracksHtml}
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                container.appendChild(scheduleItem);
+            });
+        }
+        
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set up modal event listeners
+            const modal = document.getElementById('abstractModal');
+            const closeBtn = document.querySelector('.close');
+            
+            // Close modal when clicking the X
+            closeBtn.addEventListener('click', closeAbstractModal);
+            
+            // Close modal when clicking outside of it
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeAbstractModal();
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && modal.style.display === 'block') {
+                    closeAbstractModal();
+                }
+            });
+            
+            // Load the schedule
+            loadScheduleData();
+        });
+    </script>
+</body>
+</html>
