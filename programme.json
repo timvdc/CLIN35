@@ -175,7 +175,7 @@
           {
             "time": "14:40–15:00",
             "title": "MultiBLiMP 1.0: A Massively Multilingual Benchmark of Linguistic Minimal Pairs",
-            "author": "Jaap Jumelet, Leonie Weissweiler, Arianna Bisazza",
+            "author": "Jaap Jumelet, Leonie Weissweiler, Joakim Nivre, Arianna Bisazza",
             "abstract": "We introduce MultiBLiMP 1.0, a massively multilingual benchmark of linguistic minimal pairs, covering 101 languages, 6 linguistic phenomena and containing more than 125,000 minimal pairs. Our minimal pairs are created using a fully automated pipeline, leveraging the large-scale linguistic resources of Universal Dependencies and UniMorph. Universal Dependencies provide syntactic structure that serves as a starting point for identifying linguistic constructions. We then use this information to create ungrammatical counterparts to a sentence, by inflecting words for a feature using the UniMorph annotation scheme. By comparing a LLM's probability judgment of the grammatical and ungrammatical sentence, we can draw insights into their understanding of the underlying agreement conditions.\n\nMultiBLiMP 1.0 evaluates abilities of LLMs at an unprecedented multilingual scale, and highlights the shortcomings of the current state-of-the-art in modelling low-resource languages. We demonstrate salient differences across contemporary LLMs, highlighting the impact of pre-training, post-training and model size on multilingual performance."
           },
           {
