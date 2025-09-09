@@ -12,7 +12,8 @@
           "id": 1,
           "name": "Large Language Models & Advanced AI",
           "description": "LLM research, RAG systems, and advanced AI development",
-          "color": "#8B5CF6",
+            "color": "#8B5CF6",
+	    "location": "LETT, 1st floor",
           "posters": [
             {
               "id": 4,
@@ -89,7 +90,8 @@
         {
           "id": 2,
           "name": "Speech Recognition & Sign Language",
-          "description": "Speech, audio, and pronunciation analysis",
+	    "location": "LETT, 2nd floor",
+            "description": "Speech, audio, and pronunciation analysis",
           "color": "#F59E0B",
           "posters": [
             {
@@ -159,7 +161,8 @@
         },
         {
           "id": 3,
-          "name": "Healthcare, Medical & Societal Applications",
+            "name": "Healthcare, Medical & Societal Applications",
+	    "location": "LETT, 3rd floor",
           "description": "All health, medical, and clinical applications",
           "color": "#10B981",
           "posters": [
@@ -239,7 +242,8 @@
         {
           "id": 4,
           "name": "Text Analysis & NLP Applications",
-          "description": "Text processing, classification, and computational linguistics applications",
+	    "location": "LETT, 4th floor",
+            "description": "Text processing, classification, and computational linguistics applications",
           "color": "#06B6D4",
           "posters": [
             {
@@ -317,7 +321,8 @@
       "groups": [
         {
           "id": 5,
-          "name": "Machine Translation & Cross-lingual NLP",
+            "name": "Machine Translation & Cross-lingual NLP",
+	    "location": "LETT, 1st floor",
           "description": "Pure machine translation focus, cross-lingual processing",
           "color": "#3B82F6",
           "posters": [
@@ -382,7 +387,8 @@
         {
           "id": 6,
           "name": "Gender Bias & Fairness in AI",
-          "description": "All gender bias and fairness studies, including gender-focused MT papers",
+	    "location": "LETT, 2nd floor",
+            "description": "All gender bias and fairness studies, including gender-focused MT papers",
           "color": "#EF4444",
           "posters": [
             {
@@ -446,7 +452,8 @@
         {
           "id": 7,
           "name": "Multimodal AI & Accessibility",
-          "description": "Multimodal systems, accessibility, and visual-linguistic tasks",
+	    "location": "LETT, 3rd floor",
+            "description": "Multimodal systems, accessibility, and visual-linguistic tasks",
           "color": "#EC4899",
           "posters": [
             {
@@ -518,7 +525,8 @@
         {
           "id": 8,
           "name": "Digital Humanities & Language Resources",
-          "description": "Infrastructure, resources, and digital humanities applications",
+	    "location": "LETT, 4th floor",
+            "description": "Infrastructure, resources, and digital humanities applications",
           "color": "#84CC16",
             "posters": [
             {

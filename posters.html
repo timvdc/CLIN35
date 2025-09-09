@@ -131,7 +131,23 @@
             font-weight: 700;
             margin-bottom: 8px;
         }
-        
+
+	.group-location {
+	    font-size: 1.2em;
+	    font-weight: 600;
+	    /*display: inline-block;*/
+	    /*align-items: center;*/
+	    gap: 6px;
+	    background: rgba(255, 255, 255, 0.2);
+	    padding: 2px 2px;
+	    border-radius: 12px;
+	    margin-bottom: 8px;
+	}
+
+	.group-location svg {
+	    flex-shrink: 0;
+	}
+	
         .group-description {
             font-size: 0.95em;
             opacity: 0.9;
@@ -562,6 +578,11 @@
                             <div class="group-header">
                                 <div class="group-header-content">
                                     <div class="group-title">${group.name}</div>
+                                    <div class="group-location">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                        <path d="M12 2C8.1 2 5 5.1 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
+                    </svg>
+${group.location}</div>
                                     <!--<div class="group-description">${group.description}</div>-->
                                     <div class="poster-count">${group.posters.length} posters</div>
                                 </div>
