@@ -3,16 +3,19 @@
     "type": "break",
     "start": "08:30",
     "end": "09:15",
-    "title": "Registration"
+      "title": "Registration (with coffee & pastries)",
+      "location": "Erasmushuis (LETT) entrance"
   },
   {
     "type": "session",
     "start": "09:15",
-    "end": "10:35",
+      "end": "10:35",
+      "location": "MSI",
     "events": [
       {
         "track": "Track A",
-        "title": "Language Learning",
+          "title": "Language Learning",
+	  "location": "MSI 00.08",
         "talks": [
           {
             "time": "09:15–09:35",
@@ -42,7 +45,8 @@
       },
       {
         "track": "Track B",
-        "title": "Resources and Evaluation",
+          "title": "Resources and Evaluation",
+	  "location": "MSI 00.14",
         "talks": [
           {
             "time": "09:15–09:35",
@@ -72,7 +76,8 @@
       },
       {
         "track": "Track C",
-        "title": "Linguistics 1",
+          "title": "Linguistics 1",
+	  "location": "MSI 00.20",
         "talks": [
           {
             "time": "09:15–09:35",
@@ -102,7 +107,8 @@
       },
       {
         "track": "Track D",
-        "title": "Machine Translation",
+          "title": "Machine Translation",
+	  "location": "MSI 00.28",
         "talks": [
           {
             "time": "09:15–09:35",
@@ -136,29 +142,34 @@
     "type": "break",
     "start": "10:35",
     "end": "11:45",
-    "title": "Coffee + Poster Session 1"
+      "title": "Coffee + Poster Session 1",
+      "location": "Erasmushuis (LETT), 1st-4th floor"
   },
   {
     "type": "plenary",
     "start": "11:45",
     "end": "13:00",
     "title": "Keynote: Marie-Catherine de Marneffe",
-    "abstract": "Consensus is a myth: Human label variation in Natural Language Inference"
+      "abstract": "Consensus is a myth: Human label variation in Natural Language Inference",
+      "location": "MSI 03.18"
   },
   {
     "type": "break",
     "start": "13:00",
     "end": "14:00",
-    "title": "Lunch"
+      "title": "Lunch",
+      "location": "Alma 1"
   },
   {
     "type": "session",
     "start": "14:00",
-    "end": "15:20",
+      "end": "15:20",
+      "location": "MSI",
     "events": [
       {
         "track": "Track A",
-        "title": "Low-resource and multilingual NLP",
+          "title": "Low-resource and multilingual NLP",
+	  "location": "MSI 00.08",
         "talks": [
           {
             "time": "14:00–14:20",
@@ -188,7 +199,8 @@
       },
       {
         "track": "Track B",
-        "title": "LLMs",
+          "title": "LLMs",
+	  "location": "MSI 00.14",
         "talks": [
           {
             "time": "14:00–14:20",
@@ -219,7 +231,8 @@
       {
         "track": "Track C",
         "title": "Linguistics 2",
-        "talks": [
+	  "location": "MSI 00.20",
+          "talks": [
           {
             "time": "14:00–14:20",
             "title": "Studying verb constructions in an automatically parsed corpus of 150 years of written Dutch",
@@ -249,7 +262,8 @@
       {
         "track": "Track D",
         "title": "Applications",
-        "talks": [
+	  "location": "MSI 00.28",
+          "talks": [
           {
             "time": "14:00–14:20",
             "title": "Would you be a good AI Translator? Practical insights on GenAI upskilling for Flemish SMEs",
@@ -282,17 +296,20 @@
     "type": "break",
     "start": "15:20",
     "end": "16:30",
-    "title": "Coffee + Poster Session 2"
+      "title": "Coffee + Poster Session 2",
+      "location": "Erasmushuis (LETT), 1st-4th floor"
   },
   {
     "type": "session",
     "start": "16:30",
-    "end": "17:30",
+      "end": "17:30",
+      "location": "MSI",
     "events": [
       {
         "track": "Track A",
         "title": "Language Modeling and the Humanities",
-        "talks": [
+	  "location": "MSI 00.08",
+          "talks": [
           {
             "time": "16:30–16:50",
             "title": "StorytimeLM: Improving the Effectiveness and Efficiency of Language Models with Narrative Data",
@@ -316,7 +333,8 @@
       {
         "track": "Track B",
         "title": "Multi-Modal Studies",
-        "talks": [
+	  "location": "MSI 00.14",
+          "talks": [
           {
             "time": "16:30–16:50",
             "title": "Using Multiple Instance Learning to Analyze Korean Historical Print",
@@ -340,7 +358,8 @@
       {
         "track": "Track C",
         "title": "Analysis of NLP models",
-        "talks": [
+	  "location": "MSI 00.20",
+          "talks": [
           {
             "time": "16:30–16:50",
             "title": "Testing the uniform information density hypothesis with large language models",
@@ -364,7 +383,8 @@
       {
         "track": "Track D",
         "title": "Conversational agents",
-        "talks": [
+	  "location": "MSI 00.28",
+          "talks": [
           {
             "time": "16:30–16:50",
             "title": "As an AI Language Model, I...: Unpacking Chatbot Interaction Patterns Through Sequential Topic Modeling",
@@ -391,6 +411,7 @@
     "type": "break",
     "start": "17:30",
     "end": "19:00",
-    "title": "Reception"
+      "title": "Reception",
+            "location": "Erasmushuis (LETT), entrance"
   }
 ]

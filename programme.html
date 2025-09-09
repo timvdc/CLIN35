@@ -64,6 +64,22 @@
             font-size: 1.1em;
             opacity: 0.9;
         }
+
+	.session-location {
+	    font-size: 0.85em;
+	    font-weight: 600;
+	    display: inline-flex;
+	    align-items: center;
+	    gap: 6px;
+	    background: rgba(0, 0, 0, 0.05);
+	    padding: 4px 10px;
+	    border-radius: 12px;
+	    margin-top: 6px;
+	}
+
+	.session-location svg {
+	    flex-shrink: 0;
+	}
         
         /* Parallel Sessions */
         .parallel-session {
@@ -104,7 +120,23 @@
             font-weight: 600;
             color: #495057;
         }
-        
+
+	.track-location {
+	    font-size: 0.85em;
+	    font-weight: 600;
+	    display: inline-flex;
+	    align-items: center;
+	    gap: 6px;
+	    background: rgba(0, 0, 0, 0.05);
+	    padding: 4px 10px;
+	    border-radius: 12px;
+	    margin-top: 6px;
+	}
+
+	.track-location svg {
+	    flex-shrink: 0;
+	}
+	
         .talks {
             padding: 0;
         }
@@ -407,6 +439,12 @@
                             <div class="session-time">${item.start} - ${item.end}</div>
                             <div class="session-title">${item.title}</div>
                             <div class="session-abstract">${item.abstract}</div>
+                                                                                 <div class="session-location">                                                                                                                                                                                                                                                                
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">                                                                                                                                                                           
+                <path d="M12 2C8.1 2 5 5.1 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>                                                                                                                 
+            </svg>                                                                                                                                                                                                                                                                            
+            ${item.location}                                                                                                                                                                                                                                                                  
+</div>
                         </div>
                     `;
                 } else if (item.type === 'break') {
@@ -414,6 +452,12 @@
                         <div class="break">
                             <div class="session-time">${item.start} - ${item.end}</div>
                             <div class="session-title">${item.title}</div>
+<div class="session-location">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                <path d="M12 2C8.1 2 5 5.1 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
+            </svg>
+            ${item.location}
+</div>
                         </div>
                     `;
                 } else if (item.type === 'session') {
@@ -450,6 +494,12 @@ item.events.forEach(track => {
                             <div class="track">
                                 <div class="track-header">
                                     <div class="track-title">${track.title}</div>
+<div class="track-location">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                <path d="M12 2C8.1 2 5 5.1 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
+            </svg>
+            ${track.location}
+        </div>
                                 </div>
                                 <div class="talks">
                                     ${talksHtml}
@@ -463,6 +513,12 @@ item.events.forEach(track => {
                             <div class="session-header">
                                 <div class="session-time">${item.start} - ${item.end}</div>
                                 <div class="session-title">Parallel Sessions</div>
+<div class="session-location">                                                                                                                                                                                                                                                                
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">                                                                                                                                                                           
+                <path d="M12 2C8.1 2 5 5.1 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>                                                                                                                 
+            </svg>                                                                                                                                                                                                                                                                            
+            ${item.location}                                                                                                                                                                                                                                                                  
+</div>
                             </div>
                             <div class="tracks-grid">
                                 ${tracksHtml}
